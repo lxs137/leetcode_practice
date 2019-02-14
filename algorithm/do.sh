@@ -28,5 +28,7 @@ elif [[ "$COMMAND" = "build" ]]; then
 	SRC_PATH=$(find $INDEX -name "*.cpp")
 	create_source $SRC_PATH "main.cpp"
 	g++ --std=c++11 "main.cpp" -o $BINARY
+    echo "*****************RUN*****************"
+    ./test
 fi
 
