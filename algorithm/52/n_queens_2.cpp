@@ -3,35 +3,22 @@ typedef array<int, 4> Candidate;
 
 class Solution {
 public:
-    vector<vector<Coord>> solutions;
+    int solutionsCount = 0;
     vector<Candidate> allCandidates;
 
-    vector<vector<string>> solveNQueens(int n) {
-        vector<vector<string>> res;
-        if (n == 0) {
-            return res;
-        } else if (n == 1) {
-            vector<string> line({"Q"});
-            res.emplace_back(line);
-            return res;
+    int totalNQueens(int n) {
+        if (n <= 1) {
+            return n;
         }
         prepare(n);
         vector<Candidate> candidates;
         solve(n, 0, candidates);
-        for (auto &solution : solutions) {
-            res.emplace_back(showStrSolution(n, solution));
-        }
-        return res;
+        return solutionsCount;
     }
     void solve(int n, int chosen, vector<Candidate> &candidates) {
         if (chosen == n) {
             vector<Coord> solution;
-            cout << "\nsolution: \n\t";
-            for (auto &item : candidates) {
-                cout << "(" << item[0] << "," << item[1] << ") ";
-                solution.emplace_back(item[0], item[1]);
-            }
-            solutions.emplace_back(solution);
+            solutionsCount++;
         } else if (chosen == 0) {
             for (auto &item : allCandidates) {
                 candidates.push_back(item);
@@ -67,15 +54,5 @@ public:
                 allCandidates.emplace_back(candidate);
             }
         }
-    }
-    vector<string> showStrSolution(int n, vector<Coord> &solution) {
-        vector<string> res;
-        for (int i = 0; i < n; i++) {
-            res.emplace_back(n, '.');
-        }
-        for (auto &item : solution) {
-            res[item.first][item.second] = 'Q';
-        }
-        return res;
     }
 };
