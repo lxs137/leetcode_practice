@@ -12,7 +12,13 @@ TARGET=$3
 BINARY="test"
 
 create_source(){
-	TEXT=$(<"$1")
+	SOURCE_FILE=$1
+	HEADER_FILE="${SOURCE_FILE//.cpp/.h}"
+	if [[ -e "$HEADER_FILE" ]]; then
+		TEXT=$(<"$HEADER_FILE")$'\n'$(<"$SOURCE_FILE")
+	else
+		TEXT=$(<"$SOURCE_FILE")
+	fi
 	TEMPLATE=$(<main.cpp.tpl)
 	echo "${TEMPLATE//class-solution-impl/$TEXT}" > "$2"
 }
