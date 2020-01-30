@@ -3,6 +3,9 @@
 # Check command param
 if [[ $# -ne 2 && $# -ne 3 ]]; then
 	echo "$0 [command] [index] <target>"
+	echo "command: init [index] [target]"
+	echo "         build [index]"
+	echo "         force-build [index]"
 	exit
 fi
 
@@ -33,10 +36,16 @@ if [[ "$COMMAND" = "init" ]]; then
 elif [[ "$COMMAND" = "build" ]]; then
 	SRC_PATH=$(find $INDEX -name "*.cpp")
 	create_source $SRC_PATH "main.cpp"
-    # cpplint --linelength=120 --filter=-legal/copyright main.cpp
-    if g++ --std=c++11 "main.cpp" -o $BINARY; then
-        echo "*****************RUN*****************"
-        ./test
-    fi
+  cpplint --linelength=120 --filter=-legal/copyright $SRC_PATH
+	if g++ --std=c++11 "main.cpp" -o $BINARY; then
+			echo "*****************RUN*****************"
+			./test
+	fi
+elif [[ "$COMMAND" = "force-build" ]]; then
+SRC_PATH=$(find $INDEX -name "*.cpp")
+	if g++ --std=c++11 "main.cpp" -o $BINARY; then
+			echo "*****************RUN*****************"
+			./test
+	fi
 fi
 
