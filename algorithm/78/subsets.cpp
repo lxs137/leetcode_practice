@@ -4,8 +4,7 @@ class Solution {
     int n = nums.size();
     vector<vector<int>> res;
     res.emplace_back(nums);
-    vector<int> emptyLine();
-    res.push_back(emptyLine);
+    res.emplace_back(0);
     for (int i = 1; i < n; i++) {
       auto idxs = combineRange(1, n, i);
       for (auto &idx : idxs) {

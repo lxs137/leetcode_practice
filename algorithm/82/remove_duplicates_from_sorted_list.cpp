@@ -4,34 +4,35 @@ class Solution {
     if (!head || !(head->next)) {
       return head;
     }
-    ListNode *idx = head, *ptr = head->next;
+    ListNode *ptr = head->next, *temp = nullptr;
     int preVal = head->val;
     bool duplicate = false;
+    vector<int> nums;
+
     while (ptr) {
       if (ptr->val != preVal) {
-        if (duplicate) {
-          idx->val = ptr->val;
-          duplicate = false;
+        if (!duplicate) {
+          nums.push_back(preVal);
         }
+        duplicate = false;
         preVal = ptr->val;
-        idx = idx->next;
       } else {
         duplicate = true;
       }
       ptr = ptr->next;
     }
 
-    if (head == idx) {
-      return nullptr;
+    if (!duplicate) {
+      nums.push_back(preVal);
     }
-    ptr = head;
-    while (ptr) {
-      if (ptr->next == idx) {
-        ptr->next = nullptr;
-        break;
-      }
-      ptr = ptr->next;
+
+    ptr = nullptr;
+    for (auto it = nums.rbegin(); it != nums.rend(); it++) {
+      temp = ptr;
+      ptr = new ListNode(*it);
+      ptr->next = temp;
     }
-    return head;
+
+    return ptr;
   }
 };
